@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template name="GetUsersAndAlbumsSequenceTemplate" xmlns="http://ws.apache.org/ns/synapse">
+  <parameter name="shortCode"/>
+  <parameter name="destinationMsisdn"/>
+  <parameter name="message"/>
+  <sequence>
+    <log level="custom">
+      <property expression="$func:shortCode" name="shortCode"/>
+      <property expression="$func:message" name="message"/>
+      <property expression="$func:destinationMsisdn" name="destinationMsisdn"/>
+    </log>
+  </sequence>
+</template>

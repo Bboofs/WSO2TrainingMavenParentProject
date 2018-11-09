@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/trainingfirstrestapi" name="TrainingFirstRestApi" xmlns="http://ws.apache.org/ns/synapse">
+  <resource methods="GET" protocol="http">
+    <inSequence>
+      <log description="FirstLog" level="custom">
+        <property name="first_log" value="Hello World"/>
+      </log>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="comments"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <call>
+        <endpoint key="gov:/endpoints/RestTestEndpoint.xml"/>
+      </call>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="POST" protocol="http" uri-template="/addnew">
+    <inSequence>
+      <log description="FirstLog" level="custom">
+        <property name="first_log" value="Hello World"/>
+      </log>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="comments"/>
+      <property description="Setting HTTP Method to POST"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="POST"/>
+      <call>
+        <endpoint key="gov:/endpoints/RestTestEndpoint.xml"/>
+      </call>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+</api>

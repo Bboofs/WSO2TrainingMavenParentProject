@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint name="JSONConverter" xmlns="http://ws.apache.org/ns/synapse">
+  <http method="get" trace="disable" uri-template="http://www.mocky.io/v2/5bdc131d3300004d0081345f"/>
+</endpoint>

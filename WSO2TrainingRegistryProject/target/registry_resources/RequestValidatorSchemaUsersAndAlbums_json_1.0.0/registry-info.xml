@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+    <item>
+        <file>RequestValidatorSchemaUsersAndAlbums.json</file>
+        <path>/_system/governance/schemas/json</path>
+        <mediaType>application/json</mediaType>
+    </item>
+</resources>

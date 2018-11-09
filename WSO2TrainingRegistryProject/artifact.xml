@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="RestTestEndpoint" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>RestTestEndpoint.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="OlugaProjectEndpoint" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>OlugaProjectEndpoint.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="JSONConverter" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>JSONConverter.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="GetAlbumAndUserID" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>GetAlbumAndUserID.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="RequestValidatorSchemaUsersAndAlbums_json" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>RequestValidatorSchemaUsersAndAlbums.json</file>
+            <path>/_system/governance/schemas/json</path>
+            <mediaType>application/json</mediaType>
+        </item>
+    </artifact>
+    <artifact name="MergeGetAlbumAndUsers" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>MergeGetAlbumAndUsers.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="MessageStoreEndPoint" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>MessageStoreEndPoint.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="MessageStoreFaultsequnceEndpoint" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>MessageStoreFaultsequnceEndpoint.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="MessageStoreReplySequence" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>MessageStoreReplySequence.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+    <artifact name="ListHeaders" groupId="com.wso2training.WSO2TrainingRegistryProject.resource" version="1.0.0" type="registry/resource" serverRole="GovernanceRegistry">
+        <item>
+            <file>ListHeaders.xml</file>
+            <path>/_system/governance/endpoints</path>
+            <mediaType>application/vnd.wso2.esb.endpoint</mediaType>
+        </item>
+    </artifact>
+</artifacts>

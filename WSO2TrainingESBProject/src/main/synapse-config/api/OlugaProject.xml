@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/benson" name="OlugaProject" xmlns="http://ws.apache.org/ns/synapse">
+  <resource methods="GET" protocol="http" uri-template="/superb/{superbId}">
+    <inSequence>
+      <call>
+        <endpoint key="gov:/endpoints/ListHeaders.xml"/>
+      </call>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="GET" protocol="http" uri-template="/to/be/removed">
+    <inSequence>
+      <log description="Logging" level="custom">
+        <property name="ShowComments" value="Showing Comments"/>
+      </log>
+      <call>
+        <endpoint key="gov:/endpoints/OlugaProjectEndpoint.xml"/>
+      </call>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="DELETE" protocol="http" uri-template="/comments/{uri.var.commentId}">
+    <inSequence>
+      <log description="DeleteComments" level="custom">
+        <property name="DeleteComments" value="Deleting Comments"/>
+      </log>
+      <call>
+        <endpoint key="gov:/endpoints/OlugaProjectEndpoint.xml"/>
+      </call>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="GET" protocol="http" uri-template="/test/{company}">
+    <inSequence>
+      <log description="PayloadRefactor" level="custom">
+        <property name="PayloadRefactor" value="PayloadRefactor Comments"/>
+      </log>
+      <call>
+        <endpoint key="gov:/endpoints/JSONConverter.xml"/>
+      </call>
+      <filter regex="telkom" source="get-property('uri.var.company')">
+        <then>
+          <log level="custom">
+            <property expression="get-property('uri.var.company')" name="insideThenTelkom"/>
+          </log>
+          <payloadFactory media-type="json">
+            <format>
+							{
+							"Telkom ID": "$1",
+							"Comment": "$2",
+							"Company Description":"$3"
+							}
+						</format>
+            <args>
+              <arg evaluator="xml" expression="//id"/>
+              <arg evaluator="xml" expression="//comments"/>
+              <arg evaluator="xml" expression="//description"/>
+            </args>
+          </payloadFactory>
+        </then>
+        <else>
+          <log level="custom">
+            <property expression="get-property('uri.var.company')" name="insideElseTelkom"/>
+          </log>
+          <filter regex="wso2" source="get-property('uri.var.company')">
+            <then>
+              <log level="custom">
+                <property expression="get-property('uri.var.company')" name="insideElseTelkomThenWSO2"/>
+              </log>
+              <payloadFactory media-type="json">
+                <format>
+									{
+									"Customer ID": "$1",
+									"Customer Name": "WSO2",
+									"Comments": "$2",
+									"Telkom Description":"$3"
+									}
+								</format>
+                <args>
+                  <arg evaluator="xml" expression="//id"/>
+                  <arg evaluator="xml" expression="//comments"/>
+                  <arg evaluator="xml" expression="//description"/>
+                </args>
+              </payloadFactory>
+            </then>
+            <else>
+              <log level="custom">
+                <property expression="get-property('uri.var.company')" name="insideElseTelkomElseWSO2"/>
+              </log>
+              <payloadFactory media-type="json">
+                <format>
+									{
+									"Error": "Resource Not Found"
+									}
+								</format>
+                <args/>
+              </payloadFactory>
+              <property name="HTTP_SC" scope="axis2" type="STRING" value="400"/>
+            </else>
+          </filter>
+        </else>
+      </filter>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+</api>

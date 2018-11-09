@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/usersandalbums" name="GetUsersAndAlbumsAndIDs" xmlns="http://ws.apache.org/ns/synapse">
+  <resource methods="POST" protocol="http" uri-template="/">
+    <inSequence>
+      <property name="HTTP_SC" scope="default" type="STRING" value="500"/>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="POST" protocol="http" uri-template="/merge">
+    <inSequence>
+      <sequence key="UsersAndAlbumsValidatorSequence"/>
+      <property expression="json-eval($.request.userId)" name="userId"
+        scope="default" type="STRING"/>
+      <property expression="$body/jsonObject/request/albumId"
+        name="albumId" scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="Logging" value="Logging request data..."/>
+        <property expression="$body" name="allBodyXML"/>
+        <property expression="json-eval($.)" name="allBodyJSON"/>
+        <property expression="json-eval($.request.userId)" name="userId"/>
+        <property expression="$body/jsonObject/request/albumId" name="albumId"/>
+      </log>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="users"/>
+      <property description="Setting uri.var.ResourceID parameter"
+        expression="$ctx:userId" name="uri.var.ResourceID"
+        scope="default" type="STRING"/>
+      <call>
+        <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+      </call>
+      <property expression="json-eval($.)" name="userData"
+        scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="LoggingUserDataResponse" value="Logging user response data..."/>
+        <property expression="json-eval($.)" name="userData"/>
+      </log>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="albums"/>
+      <property description="Setting uri.var.ResourceID parameter"
+        expression="$ctx:albumId" name="uri.var.ResourceID"
+        scope="default" type="STRING"/>
+      <call>
+        <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+      </call>
+      <property expression="json-eval($.)" name="albumData"
+        scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="LoggingAlbumDataResponse" value="Logging response album data..."/>
+        <property expression="json-eval($.)" name="albumData"/>
+      </log>
+      <payloadFactory media-type="json">
+        <format>
+					{
+					"response":{
+					"userData":$1,
+					"albumData":$2
+					}
+				</format>
+        <args>
+          <arg evaluator="xml" expression="$ctx:userData"/>
+          <arg evaluator="xml" expression="$ctx:albumData"/>
+        </args>
+      </payloadFactory>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="POST" protocol="http" uri-template="/validate">
+    <inSequence>
+      <property expression="json-eval($.request.userId)" name="userId"
+        scope="default" type="STRING"/>
+      <property expression="$body/jsonObject/request/albumId"
+        name="albumId" scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="Logging" value="Logging request data..."/>
+        <property expression="$body" name="allBodyXML"/>
+        <property expression="json-eval($.)" name="allBodyJSON"/>
+        <property expression="json-eval($.request.userId)" name="userId"/>
+        <property expression="$body/jsonObject/request/albumId" name="albumId"/>
+      </log>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="users"/>
+      <property description="Setting uri.var.ResourceID parameter"
+        expression="$ctx:userId" name="uri.var.ResourceID"
+        scope="default" type="STRING"/>
+      <call>
+        <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+      </call>
+      <property expression="json-eval($.id)" name="userIDFromUserData"
+        scope="default" type="STRING"/>
+      <property expression="json-eval($.username)"
+        name="usernameFromUserData" scope="default" type="STRING"/>
+      <property expression="json-eval($.name)" name="nameFromUserData"
+        scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="LoggingUserDataResponse" value="Logging user response data..."/>
+        <property expression="json-eval($.)" name="userData"/>
+      </log>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="albums"/>
+      <property description="Setting uri.var.ResourceID parameter"
+        expression="$ctx:albumId" name="uri.var.ResourceID"
+        scope="default" type="STRING"/>
+      <call>
+        <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+      </call>
+      <property expression="json-eval($.userId)"
+        name="userIdInAlbumData" scope="default" type="STRING"/>
+      <log level="custom">
+        <property name="LoggingAlbumDataResponse" value="Logging response album data..."/>
+        <property expression="json-eval($.)" name="albumData"/>
+      </log>
+      <property expression="json-eval($.userId)"
+        name="userIDFromAlbumData" scope="default" type="STRING"/>
+      <property expression="json-eval($.title)"
+        name="titleFromAlbumData" scope="default" type="STRING"/>
+      <log level="custom">
+        <property expression="$ctx:userIDFromAlbumData" name="userIDFromAlbumData"/>
+        <property expression="$ctx:titleFromAlbumData" name="titleFromAlbumData"/>
+        <property expression="$ctx:userIDFromUserData" name="userIDFromUserData"/>
+        <property expression="$ctx:usernameFromUserData" name="usernameFromUserData"/>
+        <property expression="$ctx:nameFromUserData" name="nameFromUserData"/>
+      </log>
+      <filter xpath="$ctx:userIDFromUserData = $ctx:userIDFromAlbumData">
+        <then>
+          <log level="custom">
+            <property name="InsidePayLoadfactory" value="Logging InsidePayLoadfactory Matching Scenario..."/>
+          </log>
+          <payloadFactory media-type="json">
+            <format>
+
+							{
+							"UserName" : "$1",
+							"AlbumName" : "$2",
+							"OwnershipStatus":"Valid"
+							}
+						</format>
+            <args>
+              <arg evaluator="xml" expression="$ctx:usernameFromUserData"/>
+              <arg evaluator="xml" expression="$ctx:titleFromAlbumData"/>
+            </args>
+          </payloadFactory>
+        </then>
+        <else>
+          <payloadFactory media-type="json">
+            <format>
+
+							{
+							"UserName" : "$1",
+							"AlbumName" : "$2",
+							"AlbumUser": "$3",
+							"OwnershipStatus" :"Invalid"
+							}
+						</format>
+            <args>
+              <arg evaluator="xml" expression="$ctx:usernameFromUserData"/>
+              <arg evaluator="xml" expression="$ctx:titleFromAlbumData"/>
+              <arg evaluator="xml" expression="$ctx:nameFromUserData"/>
+            </args>
+          </payloadFactory>
+        </else>
+      </filter>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="GET" protocol="http" uri-template="/iterate">
+    <inSequence>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="users"/>
+      <call>
+        <endpoint key="gov:/endpoints/GetAlbumAndUserID.xml"/>
+      </call>
+      <!-- <log level="full" /> -->
+      <iterate expression="$body/jsonArray/jsonElement">
+        <target>
+          <sequence>
+            <log>
+              <property expression="json-eval($.name)" name="LoggingName ======= "/>
+            </log>
+          </sequence>
+        </target>
+      </iterate>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="GET" protocol="http" uri-template="/foreach">
+    <inSequence>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="users"/>
+      <call>
+        <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+      </call>
+      <log level="full"/>
+      <foreach expression="$body/jsonArray/jsonElement">
+        <sequence>
+          <log>
+            <property expression="json-eval($.name)" name="====>>>LoggingNameUsingForEach ======= "/>
+          </log>
+        </sequence>
+      </foreach>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="POST" protocol="http" uri-template="/iterateaggregate">
+    <inSequence>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <property description="Setting HTTP Method to GET"
+        name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+      <property description="Setting uri.var.Resource parameter"
+        name="uri.var.Resource" scope="default" type="STRING" value="users"/>
+      <log>
+        <property name="StartLoggingFullRequestBody" value=">>>>>>>>>StartLoggingFullRequestBody*************"/>
+      </log>
+      <log level="full"/>
+      <log>
+        <property name="EndLoggingFullRequestBody" value="#############EndLoggingFullRequestBody*************"/>
+      </log>
+      <iterate expression="//UserId" id="TestIterator" sequential="true">
+        <target>
+          <sequence>
+            <property description="Setting uri.var.ResourceID parameter"
+              expression="json-eval($.UserId)" name="uri.var.ResourceID"
+              scope="default" type="STRING"/>
+            <call>
+              <endpoint key="gov:/endpoints/MergeGetAlbumAndUsers.xml"/>
+            </call>
+            <log>
+              <property expression="json-eval($.)" name=">>>>>>>>>LoggingResponseBody ======= "/>
+            </log>
+          </sequence>
+        </target>
+      </iterate>
+      <aggregate id="TestIterator">
+        <completeCondition>
+          <messageCount max="-1" min="-1"/>
+        </completeCondition>
+        <onComplete expression="//jsonObject">
+          <log level="full"/>
+          <payloadFactory media-type="json">
+            <format>
+							{"allUserData" : $1 }
+						</format>
+            <args>
+              <arg evaluator="xml" expression="$body"/>
+            </args>
+          </payloadFactory>
+          <respond/>
+        </onComplete>
+      </aggregate>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="GET" protocol="http" uri-template="/enrich/{postID}">
+    <inSequence>
+      <property expression="get-property('uri.var.postID')"
+        name="uri.var.ResourceID" scope="default" type="STRING"/>
+      <property name="uri.var.Resource" scope="default" type="STRING" value="comments"/>
+      <call>
+        <endpoint key="gov:/endpoints/GetAlbumAndUserID.xml"/>
+      </call>
+      <property expression="//jsonObject" name="CommentsResponse"
+        scope="default" type="OM"/>
+      <property action="remove" name="uri.var.Resource" scope="default"/>
+      <call>
+        <endpoint key="gov:/endpoints/GetAlbumAndUserID.xml"/>
+      </call>
+      <property expression="json-eval($.)"
+        name=">>>>>>>>>>>>>>>>>>>>>>PostResponse" scope="default" type="STRING"/>
+      <enrich>
+        <source clone="true" xpath="$ctx:CommentsResponse"/>
+        <target action="child" xpath="$body.jsonObject"/>
+      </enrich>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+  <resource methods="POST" protocol="http" uri-template="/clone/">
+    <inSequence>
+      <property action="remove" name="REST_URI_POSTFIX" scope="axis2"/>
+      <log level="full"/>
+      <log level="custom">
+        <property name="LoggingFullRequestBody" value="json-eval($.)"/>
+      </log>
+      <clone>
+        <target>
+          <sequence>
+            <log level="custom">
+              <property name="DOCTOR OLUGA>>>>>>>" value="ENTRYLOG00000000000000000000000000000000"/>
+              <property expression="json-eval($.)" name="LoggingFullRequestBody"/>
+              <property name=">>>>>>>>>>>>OLUGA DOCYOR" value="EXIT LOG000000000000000000000000000"/>
+            </log>
+            <property expression="//jsonObject" name="CommentsResponse"
+              scope="default" type="OM"/>
+            <enrich>
+              <source clone="true" xpath="$ctx:CommentsResponse"/>
+              <target action="child" xpath="$body.jsonObject"/>
+            </enrich>
+          </sequence>
+        </target>
+        <target>
+          <sequence>
+            <log level="custom">
+              <property name="DOCTOR OLUGA>>>>>>>" value="ENTRYLOG11111111111111111111111111111111"/>
+              <property expression="json-eval($.)" name="LoggingFullRequestBody"/>
+              <property name=">>>>>>>>>>>>OLUGA DOCYOR" value="EXIT LOG111111111111111111111111111"/>
+            </log>
+            <enrich>
+              <source clone="true" xpath="$ctx:CommentsResponse"/>
+              <target action="child" xpath="$body.jsonObject"/>
+            </enrich>
+          </sequence>
+        </target>
+      </clone>
+      <respond/>
+    </inSequence>
+    <outSequence/>
+    <faultSequence/>
+  </resource>
+</api>

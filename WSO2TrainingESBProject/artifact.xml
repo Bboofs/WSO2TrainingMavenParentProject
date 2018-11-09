@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="TrainingFirstRestApi" groupId="com.wso2training.WSO2TrainingESBProject.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/TrainingFirstRestApi.xml</file>
+    </artifact>
+    <artifact name="OlugaProject" groupId="com.wso2training.WSO2TrainingESBProject.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/OlugaProject.xml</file>
+    </artifact>
+    <artifact name="OlugaSwitch" groupId="com.wso2training.WSO2TrainingESBProject.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/OlugaSwitch.xml</file>
+    </artifact>
+    <artifact name="GetUsersAndAlbumsAndIDs" groupId="com.wso2training.WSO2TrainingESBProject.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/GetUsersAndAlbumsAndIDs.xml</file>
+    </artifact>
+    <artifact name="UsersAndAlbumsValidatorSequence" groupId="com.wso2training.WSO2TrainingESBProject.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/UsersAndAlbumsValidatorSequence.xml</file>
+    </artifact>
+    <artifact name="GetUsersAndAlbumsSequenceTemplate" groupId="com.wso2training.WSO2TrainingESBProject.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/GetUsersAndAlbumsSequenceTemplate.xml</file>
+    </artifact>
+    <artifact name="ClassMediatorTestAPI" groupId="com.wso2training.WSO2TrainingESBProject.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/ClassMediatorTestAPI.xml</file>
+    </artifact>
+    <artifact name="WSO2TrainingMessageStore" groupId="com.wso2training.WSO2TrainingESBProject.message-store" version="1.0.0" type="synapse/message-store" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/message-stores/WSO2TrainingMessageStore.xml</file>
+    </artifact>
+</artifacts>
